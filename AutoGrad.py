@@ -14,7 +14,7 @@ class Node(object):
         self.prior = input
         self.next = None
 
-        print(self.prior)
+        # print(self.prior)
         # set the input next
         for p in self.prior:
             #print(p)
@@ -123,49 +123,21 @@ class input_node(Node):
         return 1
 
 
-'''x = np.array([[1, 2, 3, 4], [1, 1, 1, 1]])
-y = np.array([[4, 3], [2, 1], [2, 2], [2, 2]])
-print(np.dot(x, y))'''
-'''x = torch.tensor([1, 2, 3, 4]).to(torch.float32).requires_grad_()
-y = torch.tensor([[4], [2], [2], [2]]).to(torch.float32).requires_grad_()
-
-z = torch.matmul(x, y)
-
-print(x)
-print(y)
-print(z)
-#z.zero_grad()
-z.backward(torch.ones_like(z))
-print(x.grad)
-print(y.grad)
-'''
-'''X = input_node(np.array([1, 2, 3]))
-W = input_node(np.array([4, 4, 4]))
-b = input_node(1)
-
-node_1 = mml(X, W)
-node_2 = add(node_1, b)
-
-node_list = [node_1, node_2]
-
-for n in node_list:
-    n.forward()'''
-
 a = np.array([0.1, 1, 1])
 b = np.array([0.2, 2, 1])
 
 X = input_node(*[a])
 w = input_node(*[b])
 
-test = sum(X)
-print(test.forward())
-print(X.backward(X.value))
+#test = sum(X)
+#print(test.forward())
+#print(X.backward(X.value))
 #head.forward()
 #print(head.prior)
 #print(head.value)
 #print(head.require_grad)
 #print(head.forward())
-'''test = add(X, w)
+test = mml(X, w)
 #print(test.forward())
 test2 = power(2, test)
 #test2 = exp(test)
@@ -173,7 +145,15 @@ print(test2.forward())
 #print(test.output)
 
 #print(head.value)
-print(X.backward(X.value))'''
+print(X.backward(X.value))
 
 #b = np.array([0.1, 1, 1])
 #print((a == b).all())
+
+tenser_a = torch.tensor(a).to(torch.float32).requires_grad_()
+tenser_b = torch.tensor(b).to(torch.float32).requires_grad_()
+
+z = (torch.dot(tenser_a, tenser_b))**2
+z.backward()
+print(z)
+print(tenser_a.grad)
