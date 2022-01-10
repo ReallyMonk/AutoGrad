@@ -67,11 +67,14 @@ class mml(Node):
         return np.dot(x[0], x[1])
 
     def diff_func(self, x):
-        print(self.tmp)
-        if (x == self.tmp[0]).all():
-            return self.tmp[1]
+        #print(self.tmp)
+        if (self.tmp[0] == self.tmp[1]).all():
+            return 2 * self.tmp[0]
         else:
-            return self.tmp[0]
+            if (x == self.tmp[0]).all():
+                return self.tmp[1]
+            else:
+                return self.tmp[0]
 
 
 class power(Node):
@@ -137,11 +140,11 @@ w = input_node(*[b])
 #print(head.value)
 #print(head.require_grad)
 #print(head.forward())
-test = mml(X, w)
-#print(test.forward())
-test2 = power(2, test)
+test = mml(X, X)
+print(test.forward())
+#test2 = power(2, test)
 #test2 = exp(test)
-print(test2.forward())
+#print(test2.forward())
 #print(test.output)
 
 #print(head.value)
@@ -149,11 +152,10 @@ print(X.backward(X.value))
 
 #b = np.array([0.1, 1, 1])
 #print((a == b).all())
-
 tenser_a = torch.tensor(a).to(torch.float32).requires_grad_()
 tenser_b = torch.tensor(b).to(torch.float32).requires_grad_()
 
-z = (torch.dot(tenser_a, tenser_b))**2
+z = torch.dot(tenser_a, tenser_a)
 z.backward()
 print(z)
 print(tenser_a.grad)
